@@ -1,0 +1,18 @@
+<!DOCTYPE html><html><body>
+<h2>Wall Path Visualization</h2>
+<canvas id="cv" width="500" height="500" style="border:1px solid #000"></canvas>
+<script>
+async function run(){
+ let r = await fetch("http://localhost:8000/trajectory/1");
+ let t = await r.json();
+ let c=document.getElementById("cv"),x=c.getContext("2d");
+ let p=t.path,i=0;
+ function draw(){
+  if(i>=p.length)return;
+  let [px,py]=p[i]; x.lineTo(px*80,py*80); x.stroke(); i++;
+  requestAnimationFrame(draw);
+ }
+ x.moveTo(p[0][0]*80,p[0][1]*80); draw();
+}
+run();
+</script></body></html>
